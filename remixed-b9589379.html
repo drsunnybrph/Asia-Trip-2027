@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asia 2027 — The Baecation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0f;
+    --surface: #161618;
+    --border: #2a2a2d;
+    --cream: #f0e8d5;
+    --muted: #7a7a82;
+    --dim: #3a3a3f;
+    --seoul: #e05c6e;
+    --busan: #4a8fd4;
+    --naha: #2bbfaa;
+    --onna: #d4a853;
+    --tokyo: #9b7fe8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 60px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 100% 0%, rgba(155,127,232,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(212,168,83,0.07) 0%, transparent 60%);
+  }
+  .hero-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--onna);
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .route {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .route-stop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: .05em;
+  }
+  .route-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .route-dot.active { background: var(--cream); }
+  .route-arrow {
+    color: var(--dim);
+    font-size: 11px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+    position: relative;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .meta-item { }
+  .meta-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .meta-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  /* NAV */
+  .city-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(14,14,15,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 60px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .city-nav::-webkit-scrollbar { display: none; }
+  .nav-item {
+    cursor: pointer;
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all .2s;
+  }
+  .nav-item:hover { color: var(--cream); }
+  .nav-item.s { border-color: var(--seoul); color: var(--cream); }
+  .nav-item.b { border-color: var(--busan); color: var(--cream); }
+  .nav-item.n { border-color: var(--naha); color: var(--cream); }
+  .nav-item.o { border-color: var(--onna); color: var(--cream); }
+  .nav-item.t { border-color: var(--tokyo); color: var(--cream); }
+
+  /* SECTIONS */
+  .section {
+    padding: 80px 60px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1000px;
+  }
+
+  /* COSTS */
+  .costs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .cost-card {
+    background: var(--surface);
+    padding: 24px;
+  }
+  .cost-icon { font-size: 18px; margin-bottom: 10px; }
+  .cost-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .cost-range {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cream);
+  }
+  .cost-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .cost-total {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .total-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .total-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+  }
+  .total-pp {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* CHECKLIST */
+  .checklist { margin-top: 40px; }
+  .check-group { margin-bottom: 32px; }
+  .check-group-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(42,42,45,.5);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--dim);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+  .check-box:hover { border-color: var(--cream); }
+  .check-box.done { background: var(--onna); border-color: var(--onna); color: #000; }
+  .check-text { flex: 1; font-size: 14px; line-height: 1.5; }
+  .check-text strong { font-weight: 500; color: var(--cream); }
+  .check-text span { color: var(--muted); font-size: 13px; }
+  .badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge-done { background: rgba(212,168,83,.15); color: var(--onna); }
+  .badge-urgent { background: rgba(224,92,110,.15); color: var(--seoul); }
+  .badge-soon { background: rgba(155,127,232,.15); color: var(--tokyo); }
+
+  /* CITY HEADER */
+  .city-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .city-accent {
+    width: 3px;
+    height: 80px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+  .city-flag { font-size: 32px; margin-bottom: 6px; }
+  .city-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.01em;
+  }
+  .city-dates {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: .05em;
+  }
+  .city-vibe {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* DAYS */
+  .days { display: flex; flex-direction: column; gap: 2px; }
+  .day {
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .day-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .day-date {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    min-width: 100px;
+  }
+  .day-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--cream);
+    flex: 1;
+  }
+  .day-chevron {
+    color: var(--dim);
+    font-size: 12px;
+    transition: transform .2s;
+  }
+  .day.open .day-chevron { transform: rotate(180deg); }
+  .day-body {
+    display: none;
+    padding: 0 20px 20px 136px;
+    border-top: 1px solid var(--border);
+  }
+  .day.open .day-body { display: block; }
+  .activity {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(42,42,45,.5);
+  }
+  .activity:last-child { border-bottom: none; }
+  .activity-time {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .activity-main {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+  .activity-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+  .splurge-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 20px;
+    margin-left: 7px;
+    background: rgba(212,168,83,.12);
+    color: var(--onna);
+    letter-spacing: .04em;
+    vertical-align: middle;
+  }
+  .book-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 20px;
+    margin-left: 7px;
+    background: rgba(224,92,110,.12);
+    color: var(--seoul);
+    letter-spacing: .04em;
+    vertical-align: middle;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .section-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  /* MEAL PLAN */
+  .meal-plan {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0 32px;
+    flex-wrap: wrap;
+  }
+  .meal-pill {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .meal-pill strong { color: var(--cream); font-weight: 400; }
+
+  /* TRANSIT */
+  .transit-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border-radius: 4px;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--muted);
+    border-left: 3px solid var(--dim);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .footer-tag {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  @media (max-width: 768px) {
+    .hero, .section, footer { padding-left: 24px; padding-right: 24px; }
+    .city-nav { padding: 0 24px; }
+    .day-body { padding-left: 20px; }
+    .day-date { min-width: 80px; font-size: 10px; }
+    .costs-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp .6s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .d1 { animation-delay: .1s; }
+  .d2 { animation-delay: .2s; }
+  .d3 { animation-delay: .3s; }
+  .d4 { animation-delay: .4s; }
+  .d5 { animation-delay: .5s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag fade-in">April – May 2027 · Travel Itinerary</div>
+  <h1 class="fade-in d1">The <em>Baecation</em></h1>
+  <p class="hero-sub fade-in d2">Korea · Okinawa · Tokyo</p>
+  <div class="route fade-in d3">
+    <div class="route-stop"><div class="route-dot active"></div>SFO</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="route-dot"></div>🇰🇷 Seoul</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="route-dot"></div>🇰🇷 Busan</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="route-dot"></div>🪸 Naha</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="route-dot"></div>🏖️ Onna</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="route-dot"></div>🗼 Tokyo</div>
+    <div class="route-arrow">→</div>
+    <div class="route-stop"><div class="route-dot active"></div>SFO</div>
+  </div>
+  <div class="hero-meta fade-in d4">
+    <div class="meta-item"><div class="meta-label">Departure</div><div class="meta-val">Apr 10, 2027</div></div>
+    <div class="meta-item"><div class="meta-label">Return</div><div class="meta-val">May 1, 2027</div></div>
+    <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-val">20 nights</div></div>
+    <div class="meta-item"><div class="meta-label">Travelers</div><div class="meta-val">2 people</div></div>
+    <div class="meta-item"><div class="meta-label">Outbound</div><div class="meta-val">EVA Air ✓</div></div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="city-nav">
+  <a onclick="navTo('costs')" class="nav-item">Costs</a>
+  <a onclick="navTo('checklist')" class="nav-item">Checklist</a>
+  <a onclick="navTo('seoul')" class="nav-item s">Seoul</a>
+  <a onclick="navTo('busan')" class="nav-item b">Busan</a>
+  <a onclick="navTo('naha')" class="nav-item n">Naha</a>
+  <a onclick="navTo('onna')" class="nav-item o">Onna</a>
+  <a onclick="navTo('tokyo')" class="nav-item t">Tokyo</a>
+</nav>
+
+<!-- COSTS -->
+<section class="section" id="costs">
+  <div class="section-title">Budget Overview</div>
+  <div class="section-headline">What it costs</div>
+  <div class="costs-grid">
+    <div class="cost-card">
+      <div class="cost-icon">✈️</div>
+      <div class="cost-label">Flights</div>
+      <div class="cost-range">~$766</div>
+      <div class="cost-note">+ points for SFO↔ICN & HND↔SFO</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-icon">🏨</div>
+      <div class="cost-label">Stays · 19 nights</div>
+      <div class="cost-range">$2,560–4,090</div>
+      <div class="cost-note">Airbnbs + Onna resort splurge</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-icon">🎟️</div>
+      <div class="cost-label">Experiences</div>
+      <div class="cost-range">$195</div>
+      <div class="cost-note">TeamLab + MariCAR</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-icon">🍽️</div>
+      <div class="cost-label">Food · ~$70–120/day</div>
+      <div class="cost-range">$1,400–2,400</div>
+      <div class="cost-note">Street food to wagyu splurges</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-icon">🚆</div>
+      <div class="cost-label">Local Transport · ~$10–20/day</div>
+      <div class="cost-range">$200–400</div>
+      <div class="cost-note">Subway · taxi · Uber · Daikoku RT</div>
+    </div>
+  </div>
+  <div class="cost-total">
+    <div>
+      <div class="total-label">Grand Total · excl. shopping</div>
+      <div class="total-val">$5,120 – $7,850</div>
+      <div class="total-pp">~$2,560 – $3,925 per person</div>
+    </div>
+    <div style="text-align:right">
+      <div class="total-label">Points Redeemed</div>
+      <div class="total-val" style="font-size:22px">100k+</div>
+      <div class="total-pp">Aeroplan pts · SFO ↔ Seoul</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="section" id="checklist">
+  <div class="section-title">Action Items</div>
+  <div class="section-headline">Book in advance</div>
+  <div class="checklist">
+    <div class="check-group">
+      <div class="check-group-label">✈️ Flights</div>
+      <div class="check-item">
+        <div class="check-box done" onclick="toggle(this)">✓</div>
+        <div class="check-text"><strong>SFO → ICN — Apr 10</strong> <span class="badge badge-done">Done</span><br><span>EVA Air · 11:50pm · 100k pts + $73pp</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>KTX Seoul → Busan — Apr 17</strong><br><span>korail.go.kr · ~$35pp</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>ICN → OKA — Apr 21</strong><br><span>Afternoon flight · ~$125pp</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>OKA → HND — Apr 27</strong><br><span>Direct · ~$100pp</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>HND → SFO — May 1</strong> <span class="badge badge-urgent">Find Points</span><br><span>Target points deal · ~$50pp cash + pts</span></div>
+      </div>
+    </div>
+    <div class="check-group">
+      <div class="check-group-label">🏨 Stays</div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>Seoul Airbnb · Apr 12–17 · 5 nights</strong><br><span>Hongdae area · $500–900</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>Busan Airbnb · Apr 17–21 · 4 nights</strong><br><span>Haeundae or Gwangalli · $320–600</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>Naha Airbnb · Apr 21–24 · 3 nights</strong><br><span>Near Kokusai Dori · $240–390</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>Onna Resort · Apr 24–27 · 3 nights</strong> <span class="badge badge-urgent">Book ASAP</span><br><span>Hyatt Seragaki · Kafuu · Halekulani · $900–1,200</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>Tokyo · Apr 27–May 1 · 4 nights</strong> <span class="badge badge-urgent">Golden Week</span><br><span>Shinjuku · compare Airbnb vs hotel · $600–1,000</span></div>
+      </div>
+    </div>
+    <div class="check-group">
+      <div class="check-group-label">🎟️ Experiences</div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>TeamLab Borderless · Apr 29</strong> <span class="badge badge-urgent">Months ahead</span><br><span>Azabudai Hills · ~$33pp</span></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box" onclick="toggle(this)"></div>
+        <div class="check-text"><strong>MariCAR Street Karting · Apr 30</strong> <span class="badge badge-soon">4–6 wks out</span><br><span>Shinjuku/Shibuya route · ~$65pp</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEOUL -->
+<section class="section" id="seoul">
+  <div class="city-header">
+    <div class="city-accent" style="background:var(--seoul)"></div>
+    <div>
+      <div class="city-flag">🇰🇷</div>
+      <div class="city-name">Seoul</div>
+      <div class="city-dates">Apr 12 – 17 · 5 nights · Hongdae Airbnb</div>
+      <div class="city-vibe">Clean streets, world-class cafés, KBBQ every night</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day open">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Mon · Apr 12</div>
+        <div class="day-title">✈️ Arrive + Reset</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🛬 Land ICN · check in · walk Hongdae</div>
+          <div class="activity-note">Long flight — don't overplan. Check in, shower, reset.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🥩 First KBBQ — samgyeopsal + soju</div>
+          <div class="activity-note">Find a packed spot near the hotel. Initiation night.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Tue · Apr 13</div>
+        <div class="day-title">🏯 Culture Day</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🏯 Gyeongbokgung Palace + 🏘️ Bukchon Hanok Village</div>
+          <div class="activity-note">One cultural anchor for the whole trip. Great photos. She'll love the hanok streets — wear comfortable shoes.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🧧 Insadong → 🛍️ Myeongdong street food crawl</div>
+          <div class="activity-note">Tteokbokki · egg bread · honey chips. Tourist-friendly but genuinely good.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Wed · Apr 14</div>
+        <div class="day-title">🌊 Chill Seoul</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🏙️ Dongdaemun Design Plaza (DDP)</div>
+          <div class="activity-note">Architectural flex. Good for photos, cool market nearby.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🌊 Han River picnic — GS25 snacks + rent bikes</div>
+          <div class="activity-note">Classic Seoul couple activity. Yeouido or Banpo park.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🍽️ Cross to Gangnam for dinner</div>
+          <div class="activity-note">Different energy than Hongdae — more polished.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Thu · Apr 15</div>
+        <div class="day-title">👸 Her Day</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">All Day</div>
+          <div class="activity-main">👜 Apgujeong Rodeo + 🌿 Garosu-gil boutiques</div>
+          <div class="activity-note">Upscale shopping, incredible cafés. She will be in her element. Full day here is easy.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🛁 Dragon Hill Jimjilbang spa night</div>
+          <div class="activity-note">Mixed common areas + gender-separated baths. ~$20pp. Unique experience.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Fri · Apr 16</div>
+        <div class="day-title">🎶 Last Seoul Night</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Daytime</div>
+          <div class="activity-main">🛍️ Hongdae final shopping run</div>
+          <div class="activity-note">Streetwear · Korean beauty · accessories. Last Korea shopping day.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🥩 Last KBBQ + 🍺 Hongdae bar hop</div>
+          <div class="activity-note">Seoul's best nightlife is in Hongdae. Stay as late as you want — KTX isn't until tomorrow.</div>
+        </div>
+      </div>
+    </div>
+    <div class="transit-bar">🚄 Apr 17 — KTX Seoul → Busan · 2.5 hrs · ~$35pp · Book at korail.go.kr</div>
+  </div>
+</section>
+
+<!-- BUSAN -->
+<section class="section" id="busan">
+  <div class="city-header">
+    <div class="city-accent" style="background:var(--busan)"></div>
+    <div>
+      <div class="city-flag">🇰🇷</div>
+      <div class="city-name">Busan</div>
+      <div class="city-dates">Apr 17 – 21 · 4 nights · Haeundae/Gwangalli Airbnb</div>
+      <div class="city-vibe">Fresh seafood, beaches, more chill than Seoul</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day open">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Sat · Apr 17</div>
+        <div class="day-title">🌊 Arrive + Gwangalli Night</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">Check in, drop bags, walk to Gwangalli Beach</div>
+          <div class="activity-note">Seafood dinner right on the beach strip.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🌉 Gwangan Bridge lit up at night + rooftop drink</div>
+          <div class="activity-note">The bridge lit at night is genuinely beautiful. Great first Busan impression.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Sun · Apr 18</div>
+        <div class="day-title">🛕 Temple + Beach</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🛕 Haedong Yonggungsa Temple</div>
+          <div class="activity-note">Clifftop coastal temple — one of the most unique in Korea. Go early before crowds. 30 min from Haeundae.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🏖️ Haeundae Beach walk + 🐟 fresh hoe lunch</div>
+          <div class="activity-note">Not swimming weather in April but walkable and scenic. Fresh raw fish nearby.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Mon · Apr 19</div>
+        <div class="day-title">🎨 Culture + Market</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🎨 Gamcheon Culture Village</div>
+          <div class="activity-note">Colorful hillside village with murals. Half day, great photos. She'll love this.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🐠 Jagalchi Fish Market</div>
+          <div class="activity-note">Buy fresh seafood upstairs and get it cooked right there. Wild experience.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Tue · Apr 20</div>
+        <div class="day-title">🛍️ Last Busan Day</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Daytime</div>
+          <div class="activity-main">🏬 Centum City / Shinsegae</div>
+          <div class="activity-note">One of the largest malls in the world. Good for last Korea shopping.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🌉 Gwangalli final dinner + drinks</div>
+          <div class="activity-note">Last night in Korea. Pork belly + soju. Go out right.</div>
+        </div>
+      </div>
+    </div>
+    <div class="transit-bar">✈️ Apr 21 — Early KTX Busan → Seoul → ICN → OKA · Afternoon flight · ~$125pp</div>
+  </div>
+</section>
+
+<!-- NAHA -->
+<section class="section" id="naha">
+  <div class="city-header">
+    <div class="city-accent" style="background:var(--naha)"></div>
+    <div>
+      <div class="city-flag">🪸</div>
+      <div class="city-name">Naha</div>
+      <div class="city-dates">Apr 21 – 24 · 3 nights · Kokusai Dori Airbnb</div>
+      <div class="city-vibe">Tropical, totally different food world, no car needed</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day open">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Wed · Apr 21</div>
+        <div class="day-title">🌺 Arrive Naha</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🛍️ Walk Kokusai Dori · 🍜 Okinawa soba first night</div>
+          <div class="activity-note">Easy landing night. Okinawa's main street. Souvenirs, food, bars. Very different from mainland Japan.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Thu · Apr 22</div>
+        <div class="day-title">🏯 History + Food</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🏯 Shuri Castle (UNESCO)</div>
+          <div class="activity-note">Ryukyu Kingdom history. Unique — not like mainland Japan. Worth a few hours.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🐙 Makishi Public Market + 🏺 Tsuboya Pottery Street</div>
+          <div class="activity-note">Sea grapes, pork everything. Pottery street for local craft souvenirs.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🍖 Champuru + rafute + 🥃 awamori</div>
+          <div class="activity-note">Stomach-safe and delicious. Totally different from Korean food.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Fri · Apr 23</div>
+        <div class="day-title">🛍️ Shop + Beach Preview</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🛍️ Kokusai Dori — Orion Beer merch · salt sweets · bingata</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🌊 Naminoue Beach — first ocean look</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🍻 Last Naha izakaya night</div>
+          <div class="activity-note">Early-ish — moving to Onna tomorrow.</div>
+        </div>
+      </div>
+    </div>
+    <div class="transit-bar">🚕 Apr 24 — Taxi north on Route 58 to Onna · ~1 hr · scenic coast</div>
+  </div>
+</section>
+
+<!-- ONNA -->
+<section class="section" id="onna">
+  <div class="city-header">
+    <div class="city-accent" style="background:var(--onna)"></div>
+    <div>
+      <div class="city-flag">🏖️</div>
+      <div class="city-name">Onna</div>
+      <div class="city-dates">Apr 24 – 27 · 3 nights · Resort 💸</div>
+      <div class="city-vibe">Beach, snorkel, zero agenda, full reset</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap">
+    <div style="padding:8px 14px;border:1px solid rgba(212,168,83,.3);border-radius:4px;font-size:12px;color:var(--onna)">Hyatt Seragaki</div>
+    <div style="padding:8px 14px;border:1px solid rgba(212,168,83,.3);border-radius:4px;font-size:12px;color:var(--onna)">Kafuu Resort</div>
+    <div style="padding:8px 14px;border:1px solid rgba(212,168,83,.3);border-radius:4px;font-size:12px;color:var(--onna)">Halekulani ✦ splurge</div>
+  </div>
+  <div class="days">
+    <div class="day open">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Sat · Apr 24</div>
+        <div class="day-title">🏖️ Arrive + Decompress</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">Check in · 🏖️ beach · 🏊 pool · 🌅 sunset resort dinner</div>
+          <div class="activity-note">This is the reset. No schedule. Paper umbrella drinks. That's it. 🍹</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Sun · Apr 25</div>
+        <div class="day-title">🤿 Full Beach Day</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">All Day</div>
+          <div class="activity-main">🤿 Snorkeling + 🏊 pool + 😴 beach naps</div>
+          <div class="activity-note">April visibility is excellent. Coral and tropical fish right off the beach. Resort or local Rt. 58 dinner.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Mon · Apr 26</div>
+        <div class="day-title">🚗 Light Explore Day</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🌊 Cape Manza scenic cliffs</div>
+          <div class="activity-note">10 min from most Onna resorts. Dramatic coastal views. Great photos.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🎡 American Village (Mihama)</div>
+          <div class="activity-note">~30 min south. Retro American-themed. Random but genuinely fun for photos and food.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🌅 Last Okinawa sunset from the resort</div>
+        </div>
+      </div>
+    </div>
+    <div class="transit-bar">✈️ Apr 27 — Check out · taxi to OKA (~45 min) · OKA → HND · ~2.5 hrs · ~$100pp</div>
+  </div>
+</section>
+
+<!-- TOKYO -->
+<section class="section" id="tokyo">
+  <div class="city-header">
+    <div class="city-accent" style="background:var(--tokyo)"></div>
+    <div>
+      <div class="city-flag">🗼</div>
+      <div class="city-name">Tokyo</div>
+      <div class="city-dates">Apr 27 – May 1 · 4 nights · Shinjuku</div>
+      <div class="city-vibe">Energy, cars, shopping, food, the final boss</div>
+    </div>
+  </div>
+  <div style="margin-bottom:28px">
+    <div style="font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">One splurge meal a day</div>
+    <div class="meal-plan">
+      <div class="meal-pill"><strong>Apr 28</strong> 🥩 A5 Wagyu yakiniku</div>
+      <div class="meal-pill"><strong>Apr 29</strong> 🍣 Sushi no Midori</div>
+      <div class="meal-pill"><strong>Apr 30</strong> 🍜 Ichiran (ritual)</div>
+    </div>
+  </div>
+  <div class="days">
+    <div class="day open">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Tue · Apr 27</div>
+        <div class="day-title">✈️ Arrive · Piss Alley · Golden Gai</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">Check in Shinjuku · drop bags · decompress</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🍢 Omoide Yokocho — sit down and actually eat</div>
+          <div class="activity-note">Tiny stool · full yakitori sets · cold Sapporo · smoky alley energy. Don't just walk through.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Late Night</div>
+          <div class="activity-main">🍸 Golden Gai bar hop</div>
+          <div class="activity-note">100+ tiny themed bars, 6 seats each, cash only. Pick the weirdest ones. Most memorable night in Tokyo. 🔥</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Wed · Apr 28</div>
+        <div class="day-title">⛩️ Meiji · Burger · Shimokita · BIC · Wagyu</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">⛩️ Meiji Jingu — only shrine you need</div>
+          <div class="activity-note">Forested, massive torii gate, dead quiet. Go early. 45–60 min total.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Lunch</div>
+          <div class="activity-main">🍔 Shogun Burger — best in Tokyo</div>
+          <div class="activity-note">Wagyu smash burger. Consistently top-rated.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🎒 Shimokitazawa browse</div>
+          <div class="activity-note">Vintage shops · indie cafés · zero tourist energy. She'll love it. 1–2 hrs easy.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Late PM</div>
+          <div class="activity-main">⌚ BIC Camera Shinjuku — Seiko hunting</div>
+          <div class="activity-note">Biggest electronics + watch selection in Japan.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🥩 A5 Wagyu yakiniku <span class="splurge-tag">splurge</span></div>
+          <div class="activity-note">Yoroniku or Yakiniku Jumbo Hanare. Grill at the table. Skip "Kobe" label — A5 grade is the real flex. ~$150–250 for 2.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Thu · Apr 29</div>
+        <div class="day-title">🌊 TeamLab · Akihabara · Sushi &nbsp;<span style="font-size:11px;color:var(--onna)">Showa Day</span></div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">🌊 TeamLab Borderless — go at open <span class="book-tag">pre-booked</span></div>
+          <div class="activity-note">Azabudai Hills. Full maze, wander anywhere. Nothing like Planets. National holiday — go first thing. She will love this more than anything on the trip. 🥹</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">⚡ Akihabara — Hey Arcade · Mandarake · sensory overload</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🍣 Sushi no Midori <span class="splurge-tag">splurge</span></div>
+          <div class="activity-note">Not overrated. Not $400pp. ~$50–70pp. Go at open to beat the line. Genuinely excellent.</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Fri · Apr 30</div>
+        <div class="day-title">🛒 Donki · Matcha · MariCAR · Ichiran · Daikoku</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">☕🍫 Matcha + chocolate haul</div>
+          <div class="activity-note">Ippodo Tea — ceremonial matcha + bamboo whisk + stand. Tokyo Station — Royce · Press Butter Sand · NewYork Perfect Cheese.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Midday</div>
+          <div class="activity-main">🛒 Don Quijote Shinjuku chaos</div>
+          <div class="activity-note">Snacks · gadgets · costumes · $3 sake. Set a budget or it's over. 😂</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🎮 MariCAR street karting <span class="book-tag">pre-booked</span></div>
+          <div class="activity-note">Costumes · Shinjuku/Shibuya streets · ~1.5–2 hrs.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Evening</div>
+          <div class="activity-main">🍜 Ichiran solo booth ramen <span class="splurge-tag">ritual</span></div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Late Night</div>
+          <div class="activity-main">🚗 Daikoku Futo PA — 10pm+</div>
+          <div class="activity-note">Uber to Yokohama ~30–40 min. JDM everything. Friday = best turnout. Stay as long as you want. Best car night of your life. 🚗💨</div>
+        </div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-head" onclick="toggleDay(this)">
+        <div class="day-date">Sat · May 1</div>
+        <div class="day-title">🌃 Shibuya Crossing · Fly Home ✈️</div>
+        <div class="day-chevron">▾</div>
+      </div>
+      <div class="day-body">
+        <div class="activity">
+          <div class="activity-time">Morning</div>
+          <div class="activity-main">Pack · check out</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Late AM</div>
+          <div class="activity-main">🌃 Shibuya Crossing — stand in the middle</div>
+          <div class="activity-note">Iconic. Takes 10 min. Do it once. Then grab last food nearby.</div>
+        </div>
+        <div class="activity">
+          <div class="activity-time">Afternoon</div>
+          <div class="activity-main">🏪 Last konbini run at HND · ✈️ HND → SFO</div>
+          <div class="activity-note">7-Eleven or Lawson · onigiri 🍙 · Pocky · drinks for the flight. See you on the other side. 🌊</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-text">Korea · Okinawa · Tokyo — 2027</div>
+  <div class="footer-tag">20 nights · 2 people · built with ♥</div>
+</footer>
+
+<script>
+  function navTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+  function toggleDay(el) {
+    el.parentElement.classList.toggle('open');
+  }
+  function toggle(box) {
+    box.classList.toggle('done');
+    box.textContent = box.classList.contains('done') ? '✓' : '';
+  }
+</script>
+</body>
+</html>
