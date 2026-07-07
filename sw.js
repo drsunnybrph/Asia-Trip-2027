@@ -1,6 +1,6 @@
 /* Asia 2027 — offline cache (cache-first, runtime). Upload alongside the HTML.
    v2: purges old caches on activate so the previous (unencrypted) page is evicted. */
-const CACHE = 'asia2027-v2';
+const CACHE = 'asia2027-7cb77c2';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(
   caches.keys()
